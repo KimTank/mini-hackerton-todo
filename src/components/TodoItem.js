@@ -24,26 +24,26 @@ const TextContainer = styled.div`
   flex-direction: column;
 `;
 
-const DelBtn = styled.button`
+const Btn = styled.button`
   height: auto;
-  width: 20%;
-`
+  width: 10%;
+`;
 
 const TodoItem = ({ item }) => {
-
-  const handleEditItem = (e) => alert(`${item.name} : ${item.cont} 수정`)
+  const handleEditItem = (e) => alert(`${item.name} : ${item.cont} 수정`);
   const handleDelItem = (e) => alert(`${item.name} 삭제`);
 
   return (
     <>
-      <Item onClick={() => handleEditItem()}>
+      <Item>
         <TextContainer>
           <Text>
             <strong>{item.name}</strong>
           </Text>
           <Text>{item.cont}</Text>
         </TextContainer>
-          <DelBtn onClick={() => handleDelItem()}>삭제</DelBtn>
+        <Btn onClick={() => handleEditItem()}>수정</Btn>
+        <Btn onClick={() => handleDelItem()}>삭제</Btn>
       </Item>
     </>
   );
