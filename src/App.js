@@ -4,6 +4,8 @@ import "./App.css";
 import TodoList from "./components/TodoList";
 import AddItem from "./components/AddItem";
 import { useEffect, useState } from "react";
+import Modal from "react-modal/lib/components/Modal";
+import EditItem from "./components/EditItem";
 
 const Main = styled.main`
   height: 90vh;
@@ -14,11 +16,34 @@ const Main = styled.main`
   flex-direction: column;
 `;
 
-/* const dummy = [
-  {uid: uuidv4(), name: '김홍시', cont: '막내, 바보고양이, 많이 많음, 간혹 천재로 의심'},
-  {uid: uuidv4(), name: '김깜시', cont: '둘째, 천재고양이, 과묵함, 머리가 좋아서 쫄보임'},
-  {uid: uuidv4(), name: '김첫째', cont: '법률적으로는 사람, 하는짓보면 두발달린 짐승'}
-] */
+const customStyles = {
+  overlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(255, 255, 255, 0.75)",
+  },
+  content: {
+    position: "absolute",
+    top: "30%",
+    left: "30%",
+    right: "30%",
+    bottom: "30%",
+    border: "1px solid #ccc",
+    background: "#fff",
+    overflow: "auto",
+    WebkitOverflowScrolling: "touch",
+    borderRadius: "4px",
+    outline: "none",
+    padding: "10px",
+  },
+};
+
+const ModalBtn = styled.button`
+  width: 100%;
+`;
 
 function App() {
   const DOMAIN = 'http://138.2.113.146';
@@ -26,6 +51,22 @@ function App() {
   const ENDPOINT = "todos";
 
   const [todoData, setTodoData] = useState([]);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [editIdx, setEditIdx] = useState(-1);
+
+  let subtitle;
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function afterOpenModal() {
+    subtitle.style.color = "black";
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   useEffect(() => {
     getTodoData();
@@ -36,18 +77,13 @@ function App() {
       .then((res) => res.json())
       .then((data) => {
         setTodoData(data);
-        console.log(`getTodoData`);
-        console.log(data);
       });
   };
 
-  let a = 0;
-  let b = 0;
-
-  const addTodoData = ({ name, cont }) => {
+  const addTodoData = (name, cont) => {
     const newTodoData = {
-      name: "이름등록" + a++,
-      cont: "내용등록" + b++,
+      name: name,
+      cont: cont,
     };
     fetch(DOMAIN + "/" + ENDPOINT, {
       method: "POST",
@@ -84,6 +120,8 @@ function App() {
     }).then((res) => {
       if (res.status === 200) {
         getTodoData();
+        closeModal();
+        return true;
       }
     });
   };
@@ -93,21 +131,39 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          TODO 서버연동
         </p>
         <a
           className="App-link"
-          href="https://reactjs.org"
+          href="https://kimtank.github.io"
           target="_blank"
-          rel="noopener noreferrer"
+          rel="kimtank blog"
         >
-          Learn React
+          welcome
         </a>
       </header>
       <Main>
         <AddItem addTodo={addTodoData} />
-        <TodoList todoData={todoData} delTodo={deleteTodo} updTodo={updateTodo}/>
+        <TodoList
+          todoData={todoData}
+          delTodo={deleteTodo}
+          setEditIdx={setEditIdx}
+          openModal={openModal}
+        />
       </Main>
+
+      <div>
+        <Modal
+          isOpen={modalIsOpen}
+          onAfterOpen={afterOpenModal}
+          onRequestClose={closeModal}
+          style={customStyles}
+        >
+          <h4 ref={(_subtitle) => (subtitle = _subtitle)}>수정</h4>
+          <EditItem item={todoData[editIdx]} updateTodo={updateTodo}/>
+          <ModalBtn onClick={closeModal}>닫기</ModalBtn>
+        </Modal>
+      </div>
     </div>
   );
 }

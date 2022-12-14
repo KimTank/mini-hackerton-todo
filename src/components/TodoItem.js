@@ -29,12 +29,11 @@ const Btn = styled.button`
   width: 10%;
 `;
 
-const TodoItem = ({ item, delTodo, updTodo }) => {
-  const handleEditItem = (e) => updTodo({
-    uid: item.uid,
-    name: '1111',
-    cont: '2222',
-  });
+const TodoItem = ({ item, delTodo, openModal, setEditIdx, idx }) => {
+  const handleEditItem = (e) => {
+    setEditIdx(idx);
+    openModal();
+  };
   const handleDelItem = (e) => delTodo(item.uid);
 
   return (
