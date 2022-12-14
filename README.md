@@ -5,6 +5,13 @@
 1. fe: React
 2. be: 오라클 인스턴스 서버
 
-## 접속주소
+## 구동법
 
-[여기]()
+1. 받는다
+2. npm install
+3. npm start
+4. 서버가 안닫겨있으면 즐긴다
+
+## 영상
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YQK4hE1qtlk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
