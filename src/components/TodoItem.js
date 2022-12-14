@@ -29,9 +29,13 @@ const Btn = styled.button`
   width: 10%;
 `;
 
-const TodoItem = ({ item }) => {
-  const handleEditItem = (e) => alert(`${item.name} : ${item.cont} 수정`);
-  const handleDelItem = (e) => alert(`${item.name} 삭제`);
+const TodoItem = ({ item, delTodo, updTodo }) => {
+  const handleEditItem = (e) => updTodo({
+    uid: item.uid,
+    name: '1111',
+    cont: '2222',
+  });
+  const handleDelItem = (e) => delTodo(item.uid);
 
   return (
     <>

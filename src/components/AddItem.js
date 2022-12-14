@@ -14,8 +14,8 @@ const InputContainer = styled.div`
 const LABEL_NAME = "작성자";
 const LABEL_CONT = "내용";
 
-const AddItem = () => {
-  const handleAddItem = (e) => alert(`등록`);
+const AddItem = ({addTodo}) => {
+  const handleAddItem = (e) => addTodo(1, 2);
   return (
     <InputContainer>
       <InputItem label={LABEL_NAME} />

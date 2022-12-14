@@ -6,15 +6,16 @@ const List = styled.ul`
   background-color: #88A47C;
   height: 50%;
   width: 50%;
+  overflow: auto;
   display: flex;
   flex-direction: column;
 `;
 
-const TodoList = ({data}) => {
+const TodoList = ({todoData, delTodo, updTodo}) => {
   return (
     <>
       <List>
-        {data.map((item, idx) => <TodoItem item={item} key={item.uid} />)}
+        {todoData.map((item, idx) => <TodoItem item={item} key={item.uid} delTodo={delTodo} updTodo={updTodo}/>)}
       </List>
     </>
   );

@@ -1,12 +1,11 @@
 import logo from "./logo.svg";
 import styled from "styled-components";
-import {v4 as uuidv4} from "uuid";
 import "./App.css";
 import TodoList from "./components/TodoList";
 import AddItem from "./components/AddItem";
+import { useEffect, useState } from "react";
 
 const Main = styled.main`
-  background-color: #227C70;
   height: 90vh;
   width: 100vw;
   display: flex;
@@ -15,13 +14,80 @@ const Main = styled.main`
   flex-direction: column;
 `;
 
-const dummy = [
+/* const dummy = [
   {uid: uuidv4(), name: '김홍시', cont: '막내, 바보고양이, 많이 많음, 간혹 천재로 의심'},
   {uid: uuidv4(), name: '김깜시', cont: '둘째, 천재고양이, 과묵함, 머리가 좋아서 쫄보임'},
   {uid: uuidv4(), name: '김첫째', cont: '법률적으로는 사람, 하는짓보면 두발달린 짐승'}
-]
+] */
 
 function App() {
+  const DOMAIN = 'http://138.2.113.146';
+  // const DOMAIN = "http://localhost:80";
+  const ENDPOINT = "todos";
+
+  const [todoData, setTodoData] = useState([]);
+
+  useEffect(() => {
+    getTodoData();
+  }, []);
+
+  const getTodoData = () => {
+    return fetch(DOMAIN + "/" + ENDPOINT)
+      .then((res) => res.json())
+      .then((data) => {
+        setTodoData(data);
+        console.log(`getTodoData`);
+        console.log(data);
+      });
+  };
+
+  let a = 0;
+  let b = 0;
+
+  const addTodoData = ({ name, cont }) => {
+    const newTodoData = {
+      name: "이름등록" + a++,
+      cont: "내용등록" + b++,
+    };
+    fetch(DOMAIN + "/" + ENDPOINT, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newTodoData),
+    }).then((res) => {
+      if (res.status === 201) {
+        getTodoData();
+      }
+    });
+  };
+
+  const deleteTodo = (uid) => {
+    fetch(DOMAIN + "/" + ENDPOINT + `/${uid}`, {
+      method: "DELETE",
+    }).then((res) => {
+      if (res.status === 202 || res.status === 204) {
+        getTodoData();
+      }
+    });
+  };
+
+  const updateTodo = (item) => {
+    fetch(DOMAIN + "/" + ENDPOINT + `/${item.uid}`, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(item),
+    }).then((res) => {
+      if (res.status === 200) {
+        getTodoData();
+      }
+    });
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -39,8 +105,8 @@ function App() {
         </a>
       </header>
       <Main>
-        <TodoList data={dummy}/>
-        <AddItem></AddItem>
+        <AddItem addTodo={addTodoData} />
+        <TodoList todoData={todoData} delTodo={deleteTodo} updTodo={updateTodo}/>
       </Main>
     </div>
   );
