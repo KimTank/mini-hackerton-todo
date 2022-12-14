@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/mini-hackerton-todo/static/css/main.402c232d.css",
+    "main.js": "/mini-hackerton-todo/static/js/main.cbcb5ad1.js",
+    "static/js/787.4d5fa8ec.chunk.js": "/mini-hackerton-todo/static/js/787.4d5fa8ec.chunk.js",
+    "static/media/logo.svg": "/mini-hackerton-todo/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/mini-hackerton-todo/index.html",
+    "main.402c232d.css.map": "/mini-hackerton-todo/static/css/main.402c232d.css.map",
+    "main.cbcb5ad1.js.map": "/mini-hackerton-todo/static/js/main.cbcb5ad1.js.map",
+    "787.4d5fa8ec.chunk.js.map": "/mini-hackerton-todo/static/js/787.4d5fa8ec.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.402c232d.css",
+    "static/js/main.cbcb5ad1.js"
+  ]
+}
